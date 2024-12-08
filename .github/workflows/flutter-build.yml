@@ -141,20 +141,14 @@ jobs:
           pushd flutter
           # flutter build ipa --release --obfuscate --split-debug-info=./split-debug-info --no-codesign
           # for easy debugging
-          flutter build ipa --release --no-codesign
+          flutter build ios --release --no-codesign
           popd
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
         with:
-          name: rustdesk.ipa
-          path: flutter/build/ios/ipa/*.ipa
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@master
-        with:
-          name: rustdesk.ipa
-          path: flutter/build/ios/archive/Runner.xcarchive
+          name: build_ios_release
+          path: flutter/build/ios
 
   build-rustdesk-ios-selfhost:
     #if: ${{ inputs.upload-artifact }}
