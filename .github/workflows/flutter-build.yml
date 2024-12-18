@@ -126,7 +126,23 @@ jobs:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
           doNotCache: false
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          check-latest: true
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 11076708
+          packages: 'tools platform-tools'
+
       - name: Install vcpkg dependencies
+        env:
+            ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+            ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
@@ -153,12 +169,6 @@ jobs:
             exit 1
           fi
         shell: bash
-
-      - name: Restore bridge files
-        uses: actions/download-artifact@master
-        with:
-          name: bridge-artifact
-          path: ./
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@v1
@@ -211,15 +221,11 @@ jobs:
             ;;
           esac
 
-      - name: Upload Rustdesk library to Artifacts
-        uses: actions/upload-artifact@master
-        with:
-          name: librustdesk.so.${{ matrix.job.target }}
-          path: ./target/${{ matrix.job.target }}/release/liblibrustdesk.so
-
       - name: Build rustdesk
         shell: bash
         env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         run: |
           export PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH
