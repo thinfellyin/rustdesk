@@ -46,11 +46,7 @@ env:
   SIGN_BASE_URL: "${{ secrets.SIGN_BASE_URL }}"
 
 jobs:
-  #generate-bridge:
-  #uses: ./.github/workflows/bridge.yml
-    
   build-rustdesk-android:
-    #needs: [generate-bridge]
     name: build rustdesk android apk ${{ matrix.job.target }}
     runs-on: self-hosted
     strategy:
@@ -65,6 +61,24 @@ jobs:
               suffix: "",
             }
     steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: false
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          swap-storage: false
+
+      - name: Export GitHub Actions cache environment variables
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -108,23 +122,16 @@ jobs:
           channel: "stable"
           flutter-version: ${{ env.ANDROID_FLUTTER_VERSION }}
 
-      #- name: Patch flutter
-      #  run: |
-      #    cd $(dirname $(dirname $(which flutter)))
-      #    [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
+      - name: Patch flutter
+        run: |
+          cd $(dirname $(dirname $(which flutter)))
+          [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
 
       - uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
           ndk-version: ${{ env.NDK_VERSION }}
           add-to-path: true
-
-      - name: Setup vcpkg with Github Actions binary cache
-        uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgDirectory: /opt/artifacts/vcpkg
-          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
-          doNotCache: false
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -137,12 +144,16 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           cmdline-tools-version: 11076708
-          packages: 'tools platform-tools'
+          packages: 'tools platform-tools'    
+
+      - name: Setup vcpkg with Github Actions binary cache
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: /opt/artifacts/vcpkg
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+          doNotCache: false
 
       - name: Install vcpkg dependencies
-        env:
-            ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-            ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
