@@ -128,6 +128,12 @@ jobs:
           cmdline-tools-version: 11076708
           packages: 'tools platform-tools'    
 
+      - name: mkdir /opt/artifacts
+        shell: bash
+        run: |    
+          sudo mkdir /opt/artifacts
+          sudo mkdir /opt/artifacts/vcpkg
+
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
         with:
