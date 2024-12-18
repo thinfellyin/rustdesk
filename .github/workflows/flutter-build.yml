@@ -115,7 +115,8 @@ jobs:
                openjdk-17-jdk-headless \
                pkg-config \
                tree \
-               wget
+               wget \
+               jq
 
       - name: Checkout source code
         uses: actions/checkout@v4
