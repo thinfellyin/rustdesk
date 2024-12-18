@@ -43,7 +43,8 @@ jobs:
             nasm \
             ninja-build \
             pkg-config \
-            wget
+            wget \
+            jq
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@v1
