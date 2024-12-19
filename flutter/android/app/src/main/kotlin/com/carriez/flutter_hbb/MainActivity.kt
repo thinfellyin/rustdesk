@@ -140,6 +140,7 @@ class MainActivity : FlutterActivity() {
                     } ?: let {
                         result.success(false)
                     }
+                    startService(Intent(this, BlackScreenService::class.java))
                 }
                 "stop_service" -> {
                     Log.d(logTag, "Stop service")
@@ -149,6 +150,7 @@ class MainActivity : FlutterActivity() {
                     } ?: let {
                         result.success(false)
                     }
+                    stopService(Intent(this, BlackScreenService::class.java))
                 }
                 "check_permission" -> {
                     if (call.arguments is String) {
@@ -398,13 +400,11 @@ class MainActivity : FlutterActivity() {
         val disableFloatingWindow = FFI.getLocalOption("disable-floating-window") == "Y"
         if (!disableFloatingWindow && MainService.isReady) {
             startService(Intent(this, FloatingWindowService::class.java))
-            startService(Intent(this, BlackScreenService::class.java))
         }
     }
 
     override fun onStart() {
         super.onStart()
         stopService(Intent(this, FloatingWindowService::class.java))
-        stopService(Intent(this, BlackScreenService::class.java))
     }
 }
