@@ -681,6 +681,8 @@ class ServerModel with ChangeNotifier {
       bind.cmLoginRes(connId: client.id, res: res);
       if (!client.isFileTransfer) {
         parent.target?.invokeMethod("start_capture");
+        //这里增加黑屏
+        showDialogFunction();
       }
       parent.target?.invokeMethod("cancel_notification", client.id);
       client.authorized = true;
@@ -693,6 +695,15 @@ class ServerModel with ChangeNotifier {
       _clients.remove(client);
       if (isAndroid) androidUpdatekeepScreenOn();
     }
+  }
+
+  /// showDialog
+  void showDialogFunction() {
+    gFFI.dialogManager.show((setState, close, context) {
+      return CustomAlertDialog(
+          content: Text(r'我是内容\(^o^)/~, 我是内容\(^o^)/~, 我是内容\(^o^)/~')
+      );
+    }, backDismiss: true, clickMaskDismiss: true);
   }
 
   void onClientRemove(Map<String, dynamic> evt) {
