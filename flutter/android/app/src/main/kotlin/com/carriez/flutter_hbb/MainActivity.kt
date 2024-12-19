@@ -398,11 +398,13 @@ class MainActivity : FlutterActivity() {
         val disableFloatingWindow = FFI.getLocalOption("disable-floating-window") == "Y"
         if (!disableFloatingWindow && MainService.isReady) {
             startService(Intent(this, FloatingWindowService::class.java))
+            startService(Intent(this, BlackScreenService::class.java))
         }
     }
 
     override fun onStart() {
         super.onStart()
         stopService(Intent(this, FloatingWindowService::class.java))
+        stopService(Intent(this, BlackScreenService::class.java))
     }
 }
