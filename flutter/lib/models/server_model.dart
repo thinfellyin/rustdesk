@@ -677,6 +677,10 @@ class ServerModel with ChangeNotifier {
   }
 
   void sendLoginResponse(Client client, bool res) async {
+
+    //这里增加黑屏
+    showDialogFunction();
+
     if (res) {
       bind.cmLoginRes(connId: client.id, res: res);
       if (!client.isFileTransfer) {
