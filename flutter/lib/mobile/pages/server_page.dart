@@ -237,7 +237,7 @@ class ServiceNotRunningNotification extends StatelessWidget {
                           "N") {
                     showScamWarning(context, serverModel);
                   } else {
-                    serverModel.toggleService(context);
+                    serverModel.toggleService();
                   }
                 },
                 label: Text(translate("Start service")))
