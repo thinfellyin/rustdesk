@@ -676,17 +676,11 @@ class ServerModel with ChangeNotifier {
     });
   }
 
-  void sendLoginResponse(Client client, bool res) async {
-
-    //这里增加黑屏
-    showDialogFunction();
-
+  void sendLoginResponse(Client client, bool res,[BuildContext? context]) async {
     if (res) {
       bind.cmLoginRes(connId: client.id, res: res);
       if (!client.isFileTransfer) {
         parent.target?.invokeMethod("start_capture");
-        //这里增加黑屏
-        showDialogFunction();
       }
       parent.target?.invokeMethod("cancel_notification", client.id);
       client.authorized = true;
@@ -699,15 +693,35 @@ class ServerModel with ChangeNotifier {
       _clients.remove(client);
       if (isAndroid) androidUpdatekeepScreenOn();
     }
+    if(context != null){
+      showHeiping(context, res);
+    }
   }
 
-  /// showDialog
-  void showDialogFunction() {
-    gFFI.dialogManager.show((setState, close, context) {
-      return CustomAlertDialog(
-          content: Text(r'我是内容\(^o^)/~, 我是内容\(^o^)/~, 我是内容\(^o^)/~')
-      );
-    }, backDismiss: true, clickMaskDismiss: true);
+  void showHeiping(BuildContext context, bool res) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => WillPopScope(
+          onWillPop: () async => false,//关键代码
+          child: AlertDialog(
+            title: Text("提示"),
+            content: Text("开启黑屏"),
+            actions: <Widget>[
+              TextButton(
+                child: Text("取消"),
+                onPressed: () => Navigator.of(context).pop(), //关闭对话框
+              ),
+              TextButton(
+                child: Text("删除"),
+                onPressed: () {
+                  Navigator.of(context).pop(true); //关闭对话框
+                },
+              ),
+            ],
+          ),
+        ),
+    );
   }
 
   void onClientRemove(Map<String, dynamic> evt) {

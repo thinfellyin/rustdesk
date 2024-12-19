@@ -237,7 +237,7 @@ class ServiceNotRunningNotification extends StatelessWidget {
                           "N") {
                     showScamWarning(context, serverModel);
                   } else {
-                    serverModel.toggleService();
+                    serverModel.toggleService(context);
                   }
                 },
                 label: Text(translate("Start service")))
@@ -670,7 +670,7 @@ class ConnectionManager extends StatelessWidget {
                         ).marginOnly(bottom: 5),
                   client.authorized
                       ? _buildDisconnectButton(client)
-                      : _buildNewConnectionHint(serverModel, client),
+                      : _buildNewConnectionHint(serverModel, client,context),
                   if (client.incomingVoiceCall && !client.inVoiceCall)
                     ..._buildNewVoiceCallHint(context, serverModel, client),
                 ])))
@@ -717,19 +717,19 @@ class ConnectionManager extends StatelessWidget {
     }
   }
 
-  Widget _buildNewConnectionHint(ServerModel serverModel, Client client) {
+  Widget _buildNewConnectionHint(ServerModel serverModel, Client client, BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       TextButton(
           child: Text(translate("Dismiss")),
           onPressed: () {
-            serverModel.sendLoginResponse(client, false);
+            serverModel.sendLoginResponse(client, false,context);
           }).marginOnly(right: 15),
       if (serverModel.approveMode != 'password')
         ElevatedButton.icon(
             icon: const Icon(Icons.check),
             label: Text(translate("Accept")),
             onPressed: () {
-              serverModel.sendLoginResponse(client, true);
+              serverModel.sendLoginResponse(client, true,context);
             }),
     ]);
   }
