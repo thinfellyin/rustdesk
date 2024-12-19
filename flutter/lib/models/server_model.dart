@@ -676,7 +676,7 @@ class ServerModel with ChangeNotifier {
     });
   }
 
-  void sendLoginResponse(Client client, bool res,[BuildContext? context]) async {
+  void sendLoginResponse(Client client, bool res) async {
     if (res) {
       bind.cmLoginRes(connId: client.id, res: res);
       if (!client.isFileTransfer) {
@@ -693,35 +693,6 @@ class ServerModel with ChangeNotifier {
       _clients.remove(client);
       if (isAndroid) androidUpdatekeepScreenOn();
     }
-    if(context != null){
-      showHeiping(context, res);
-    }
-  }
-
-  void showHeiping(BuildContext context, bool res) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => WillPopScope(
-          onWillPop: () async => false,//关键代码
-          child: AlertDialog(
-            title: Text("提示"),
-            content: Text("开启黑屏"),
-            actions: <Widget>[
-              TextButton(
-                child: Text("取消"),
-                onPressed: () => Navigator.of(context).pop(), //关闭对话框
-              ),
-              TextButton(
-                child: Text("删除"),
-                onPressed: () {
-                  Navigator.of(context).pop(true); //关闭对话框
-                },
-              ),
-            ],
-          ),
-        ),
-    );
   }
 
   void onClientRemove(Map<String, dynamic> evt) {

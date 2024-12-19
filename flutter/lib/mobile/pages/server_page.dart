@@ -670,7 +670,7 @@ class ConnectionManager extends StatelessWidget {
                         ).marginOnly(bottom: 5),
                   client.authorized
                       ? _buildDisconnectButton(client)
-                      : _buildNewConnectionHint(serverModel, client,context),
+                      : _buildNewConnectionHint(serverModel, client),
                   if (client.incomingVoiceCall && !client.inVoiceCall)
                     ..._buildNewVoiceCallHint(context, serverModel, client),
                 ])))
@@ -717,19 +717,19 @@ class ConnectionManager extends StatelessWidget {
     }
   }
 
-  Widget _buildNewConnectionHint(ServerModel serverModel, Client client, BuildContext context) {
+  Widget _buildNewConnectionHint(ServerModel serverModel, Client client) {
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       TextButton(
           child: Text(translate("Dismiss")),
           onPressed: () {
-            serverModel.sendLoginResponse(client, false,context);
+            serverModel.sendLoginResponse(client, false);
           }).marginOnly(right: 15),
       if (serverModel.approveMode != 'password')
         ElevatedButton.icon(
             icon: const Icon(Icons.check),
             label: Text(translate("Accept")),
             onPressed: () {
-              serverModel.sendLoginResponse(client, true,context);
+              serverModel.sendLoginResponse(client, true);
             }),
     ]);
   }
