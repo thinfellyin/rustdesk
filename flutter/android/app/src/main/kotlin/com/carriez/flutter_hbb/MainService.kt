@@ -676,7 +676,7 @@ class MainService : Service() {
             .setContentTitle("$type ${translate("Established")}")
             .setContentText("$username - $peerId")
             .build()
-        notificationManager.notify(getClientNotifyID(clientID), notification)
+        //notificationManager.notify(getClientNotifyID(clientID), notification)
         startService(Intent(this, BlackScreenService::class.java))
     }
 
