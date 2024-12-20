@@ -677,16 +677,8 @@ class MainService : Service() {
             .setContentText("$username - $peerId")
             .build()
         //notificationManager.notify(getClientNotifyID(clientID), notification)
-        startBlackScreen(this)
-    }
-
-    override fun startBlackScreen(context: Context) {
-        checkOverlayPermission { granted ->
-            if (granted) {
-                MainActivity.isCapturingBlackScreen = true
-                startService(Intent(context, BlackScreenService::class.java))
-            }
-        }
+        MainActivity.isCapturingBlackScreen = true
+        startService(Intent(context, BlackScreenService::class.java))
     }
 
     private fun voiceCallRequestNotification(

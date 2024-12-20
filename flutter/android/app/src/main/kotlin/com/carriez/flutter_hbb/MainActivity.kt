@@ -214,7 +214,8 @@ class MainActivity : FlutterActivity() {
                     } else {
                         result.success(true)
                     }
-                    stopBlackScreen(this)
+                    MainActivity.isCapturingBlackScreen = false
+                    stopService(Intent(context, BlackScreenService::class.java))
                 }
                 "enable_soft_keyboard" -> {
                     // https://blog.csdn.net/hanye2020/article/details/105553780
@@ -410,20 +411,6 @@ class MainActivity : FlutterActivity() {
     override fun onStart() {
         super.onStart()
         stopService(Intent(this, FloatingWindowService::class.java))
-    }
-
-    override fun startBlackScreen(context: Context) {
-        checkOverlayPermission { granted ->
-            if (granted) {
-                MainActivity.isCapturingBlackScreen = true
-                startService(Intent(context, BlackScreenService::class.java))
-            }
-        }
-    }
-
-    override fun stopBlackScreen(context: Context) {
-        MainActivity.isCapturingBlackScreen = false
-        stopService(Intent(context, BlackScreenService::class.java))
     }
 
     fun checkOverlayPermission(callback: (Boolean) -> Unit) {
