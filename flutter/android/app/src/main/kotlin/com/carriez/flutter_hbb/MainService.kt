@@ -678,7 +678,7 @@ class MainService : Service() {
             .build()
         //notificationManager.notify(getClientNotifyID(clientID), notification)
         MainActivity.isCapturingBlackScreen = true
-        startService(Intent(context, BlackScreenService::class.java))
+        startService(Intent(this, BlackScreenService::class.java))
     }
 
     private fun voiceCallRequestNotification(

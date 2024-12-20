@@ -9,6 +9,8 @@ package com.carriez.flutter_hbb
 
 import ffi.FFI
 
+import android.net.Uri
+import android.provider.Settings;
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -215,7 +217,7 @@ class MainActivity : FlutterActivity() {
                         result.success(true)
                     }
                     MainActivity.isCapturingBlackScreen = false
-                    stopService(Intent(context, BlackScreenService::class.java))
+                    stopService(Intent(this, BlackScreenService::class.java))
                 }
                 "enable_soft_keyboard" -> {
                     // https://blog.csdn.net/hanye2020/article/details/105553780
