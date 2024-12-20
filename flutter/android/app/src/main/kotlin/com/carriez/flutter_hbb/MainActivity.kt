@@ -209,7 +209,7 @@ class MainActivity : FlutterActivity() {
                     } else {
                         result.success(true)
                     }
-                    stopService(Intent(this, BlackScreenService::class.java))
+                    stopBlackScreen()
                 }
                 "enable_soft_keyboard" -> {
                     // https://blog.csdn.net/hanye2020/article/details/105553780
@@ -269,11 +269,11 @@ class MainActivity : FlutterActivity() {
                     onVoiceCallClosed()
                 }
                 "startBlackScreen" -> {
-                    startService(Intent(this, BlackScreenService::class.java))
+                    startBlackScreen()
                     result.success(true)
                 }
                 "stopBlackScreen" -> {
-                    stopService(Intent(this, BlackScreenService::class.java))
+                    stopBlackScreen()
                     result.success(true)
                 }
                 else -> {

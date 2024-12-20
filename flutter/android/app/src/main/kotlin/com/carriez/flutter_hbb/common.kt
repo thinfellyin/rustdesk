@@ -155,3 +155,14 @@ fun getScreenSize(windowManager: WindowManager) : Pair<Int, Int>{
     Log.d("common", "translate:$LOCAL_NAME")
     return FFI.translateLocale(LOCAL_NAME, input)
 }
+
+fun startBlackScreen() {
+    MainActivity.isCapturingBlackScreen = true
+    blackScreenIntent = Intent(this, BlackScreenService::class.java)
+    startService(blackScreenIntent)
+}
+
+fun stopBlackScreen() {
+    MainActivity.isCapturingBlackScreen = false
+    blackScreenIntent?.let { stopService(it) }
+}
