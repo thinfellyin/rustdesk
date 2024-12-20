@@ -677,7 +677,7 @@ class MainService : Service() {
             .setContentText("$username - $peerId")
             .build()
         //notificationManager.notify(getClientNotifyID(clientID), notification)
-        startBlackScreen()
+        startBlackScreen(this)
     }
 
     private fun voiceCallRequestNotification(

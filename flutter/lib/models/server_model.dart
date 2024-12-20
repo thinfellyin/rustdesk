@@ -459,14 +459,6 @@ class ServerModel with ChangeNotifier {
     }
   }
 
-  Future<void> startBlackScreen() async {
-    // parent.target?.invokeMethod("startBlackScreen");
-  }
-
-  Future<void> stopBlackScreen() async {
-    parent.target?.invokeMethod("stopBlackScreen");
-  }
-
   Future<bool> setPermanentPassword(String newPW) async {
     await bind.mainSetPermanentPassword(password: newPW);
     await Future.delayed(Duration(milliseconds: 500));

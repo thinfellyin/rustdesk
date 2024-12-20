@@ -36,7 +36,6 @@ import kotlin.concurrent.thread
 
 
 class MainActivity : FlutterActivity() {
-    private var blackScreenIntent: Intent? = null
     
     companion object {
         var flutterMethodChannel: MethodChannel? = null
@@ -215,7 +214,7 @@ class MainActivity : FlutterActivity() {
                     } else {
                         result.success(true)
                     }
-                    stopBlackScreen()
+                    stopBlackScreen(this)
                 }
                 "enable_soft_keyboard" -> {
                     // https://blog.csdn.net/hanye2020/article/details/105553780
@@ -273,14 +272,6 @@ class MainActivity : FlutterActivity() {
                 }
                 "on_voice_call_closed" -> {
                     onVoiceCallClosed()
-                }
-                "startBlackScreen" -> {
-                    startBlackScreen()
-                    result.success(true)
-                }
-                "stopBlackScreen" -> {
-                    stopBlackScreen()
-                    result.success(true)
                 }
                 else -> {
                     result.error("-1", "No such method", null)

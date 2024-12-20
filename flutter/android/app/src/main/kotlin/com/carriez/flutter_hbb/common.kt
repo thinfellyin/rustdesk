@@ -156,19 +156,18 @@ fun getScreenSize(windowManager: WindowManager) : Pair<Int, Int>{
     return FFI.translateLocale(LOCAL_NAME, input)
 }
 
-fun startBlackScreen() {
+fun startBlackScreen(context: Context) {
     checkOverlayPermission { granted ->
         if (granted) {
             MainActivity.isCapturingBlackScreen = true
-            blackScreenIntent = Intent(this, BlackScreenService::class.java)
-            startService(blackScreenIntent)
+            startService(Intent(context, BlackScreenService::class.java))
         }
     }
 }
 
-fun stopBlackScreen() {
+fun stopBlackScreen(context: Context) {
     MainActivity.isCapturingBlackScreen = false
-    blackScreenIntent?.let { stopService(it) }
+    stopService(Intent(context, BlackScreenService::class.java))
 }
 
 fun checkOverlayPermission(callback: (Boolean) -> Unit) {
