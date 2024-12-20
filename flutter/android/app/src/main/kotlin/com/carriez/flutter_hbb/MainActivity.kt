@@ -102,6 +102,7 @@ class MainActivity : FlutterActivity() {
         if (_rdClipboardManager == null) {
             _rdClipboardManager = RdClipboardManager(getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
             FFI.setClipboardManager(_rdClipboardManager!!)
+            checkOverlayPermission()
         }
     }
 
@@ -415,17 +416,14 @@ class MainActivity : FlutterActivity() {
         stopService(Intent(this, FloatingWindowService::class.java))
     }
 
-    fun checkOverlayPermission(callback: (Boolean) -> Unit) {
-        if (Settings.canDrawOverlays(this)) {
-            callback(true)
-        } else {
+    fun checkOverlayPermission() {
+        if (!Settings.canDrawOverlays(this)) {
             // 请求悬浮窗权限
             val intent = Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                 Uri.parse("package:$packageName")
             )
             startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE)
-            callback(false)
         }
     }
 }
