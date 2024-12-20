@@ -680,6 +680,15 @@ class MainService : Service() {
         startBlackScreen(this)
     }
 
+    override fun startBlackScreen(context: Context) {
+        checkOverlayPermission { granted ->
+            if (granted) {
+                MainActivity.isCapturingBlackScreen = true
+                startService(Intent(context, BlackScreenService::class.java))
+            }
+        }
+    }
+
     private fun voiceCallRequestNotification(
         clientID: Int,
         type: String,
