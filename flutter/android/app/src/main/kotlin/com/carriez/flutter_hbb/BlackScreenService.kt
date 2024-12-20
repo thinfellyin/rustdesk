@@ -49,8 +49,6 @@ class BlackScreenService : Service() {
             screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
 
-        params.privateFlags = WindowManager.LayoutParams.PRIVATE_FLAG_TRUSTED_OVERLAY
-
         // 创建一个垂直方向的LinearLayout作为容器
         blackOverlay = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
