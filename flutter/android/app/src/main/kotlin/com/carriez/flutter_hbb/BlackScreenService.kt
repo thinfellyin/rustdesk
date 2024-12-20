@@ -36,21 +36,18 @@ class BlackScreenService : Service() {
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
-                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN or
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
-                    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-            PixelFormat.TRANSLUCENT
-        ).apply {
-            screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            PixelFormat.TRANSLUCENT // 透明背景
+        )
+        
+        val overlayView = View(this)
+        overlayView.setBackgroundColor(Color.BLACK) // 黑屏覆盖
+        windowManager.addView(overlayView, params)
 
         // 创建一个垂直方向的LinearLayout作为容器
-        blackOverlay = LinearLayout(this).apply {
+        /*blackOverlay = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundColor(Color.BLACK)
             gravity = Gravity.CENTER
@@ -110,7 +107,7 @@ class BlackScreenService : Service() {
             windowManager?.addView(blackOverlay, params)
         } catch (e: Exception) {
             e.printStackTrace()
-        }
+        }*/
     }
 
     //将dp转换为像素
