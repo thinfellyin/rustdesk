@@ -540,11 +540,8 @@ class MainService : Service() {
                 virtualDisplay = mp.createVirtualDisplay(
                     "RustDeskVD",
                     SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                    DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC or      // 允许其他应用访问
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_PRESENTATION,  // 作为演示显示
-                    null,
-                    null,
-                    null
+                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    s, null, null
                 )
             }else{
                 virtualDisplay?.let {
