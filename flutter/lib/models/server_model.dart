@@ -457,7 +457,6 @@ class ServerModel with ChangeNotifier {
       // current linux is not supported
       WakelockPlus.disable();
     }
-    stopBlackScreen();
   }
 
   Future<void> startBlackScreen() async {

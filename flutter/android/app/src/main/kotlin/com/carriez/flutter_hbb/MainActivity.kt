@@ -140,7 +140,6 @@ class MainActivity : FlutterActivity() {
                     } ?: let {
                         result.success(false)
                     }
-                    startService(Intent(this, BlackScreenService::class.java))
                 }
                 "stop_service" -> {
                     Log.d(logTag, "Stop service")
