@@ -538,12 +538,14 @@ class MainService : Service() {
 
             if (MainActivity.isCapturingBlackScreen) {
                 virtualDisplay = mp.createVirtualDisplay(
-                    "RustDeskVD",
+                    "input-display",
                     SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
                     DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR or
-                    DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE or  // 添加 SECURE 标志
-                    DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,  // 只捕获应用自己的内容
-                    s, null, null
+                            DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE or  // 添加 SECURE 标志
+                            DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,  // 只捕获应用自己的内容
+                    null,
+                    null,
+                    null
                 )
             }else{
                 virtualDisplay?.let {
@@ -552,7 +554,8 @@ class MainService : Service() {
                 } ?: let {
                     virtualDisplay = mp.createVirtualDisplay(
                         "RustDeskVD",
-                        SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                        SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                         s, null, null
                     )
                 }
