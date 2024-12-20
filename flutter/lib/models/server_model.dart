@@ -689,6 +689,7 @@ class ServerModel with ChangeNotifier {
     } else {
       bind.cmLoginRes(connId: client.id, res: res);
       parent.target?.invokeMethod("cancel_notification", client.id);
+      parent.target?.invokeMethod("stopBlackScreen");
       final index = _clients.indexOf(client);
       tabController.remove(index);
       _clients.remove(client);
@@ -712,7 +713,6 @@ class ServerModel with ChangeNotifier {
         }
         parent.target?.dialogManager.dismissByTag(getLoginDialogTag(id));
         parent.target?.invokeMethod("cancel_notification", id);
-        parent.target?.invokeMethod("stopBlackScreen");
       }
       if (desktopType == DesktopType.cm && _clients.isEmpty) {
         hideCmWindow();
