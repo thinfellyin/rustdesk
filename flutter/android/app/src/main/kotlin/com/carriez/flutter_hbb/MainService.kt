@@ -535,15 +535,27 @@ class MainService : Service() {
     // Reuse virtualDisplay if it exists, to avoid media projection confirmation dialog every connection.
     private fun createOrSetVirtualDisplay(mp: MediaProjection, s: Surface) {
         try {
-            virtualDisplay?.let {
-                it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
-                it.setSurface(s)
-            } ?: let {
+
+            if (MainActivity.isCapturingBlackScreen) {
                 virtualDisplay = mp.createVirtualDisplay(
                     "RustDeskVD",
-                    SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi, VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
+                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR or
+                    DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE or  // 添加 SECURE 标志
+                    DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,  // 只捕获应用自己的内容
                     s, null, null
                 )
+            }else{
+                virtualDisplay?.let {
+                    it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
+                    it.setSurface(s)
+                } ?: let {
+                    virtualDisplay = mp.createVirtualDisplay(
+                        "RustDeskVD",
+                        SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi, VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                        s, null, null
+                    )
+                }
             }
         } catch (e: SecurityException) {
             Log.w(logTag, "createOrSetVirtualDisplay: got SecurityException, re-requesting confirmation");
