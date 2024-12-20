@@ -16,6 +16,8 @@ import android.widget.ImageView
 import android.graphics.drawable.AnimationDrawable
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.animation.RotateAnimation
+import android.view.animation.LinearInterpolator
 
 class BlackScreenService : Service() {
     private var windowManager: WindowManager? = null
@@ -49,7 +51,7 @@ class BlackScreenService : Service() {
             
             // 创建加载动画图标
             val loadingIcon = ImageView(context).apply {
-                setImageResource(R.drawable.loading_animation)
+                setImageResource(R.drawable.ic_loading)
                 layoutParams = LinearLayout.LayoutParams(
                     dpToPx(60), // 宽度60dp
                     dpToPx(60)  // 高度60dp
@@ -57,8 +59,20 @@ class BlackScreenService : Service() {
                     bottomMargin = dpToPx(30) // 底部间距30dp
                 }
                 
-                // 启动旋转动画
-                (drawable as? android.graphics.drawable.AnimatedVectorDrawable)?.start()
+                // 创建旋转动画
+                val rotation = RotateAnimation(
+                    0f,                // 起始角度
+                    360f,              // 结束角度
+                    Animation.RELATIVE_TO_SELF, 0.5f,  // 旋转中心X
+                    Animation.RELATIVE_TO_SELF, 0.5f   // 旋转中心Y
+                ).apply {
+                    duration = 1500            // 动画持续时间
+                    repeatCount = Animation.INFINITE  // 无限循环
+                    interpolator = LinearInterpolator()  // 匀速旋转
+                }
+                
+                // 启动动画
+                startAnimation(rotation)
             }
             
             // 创建主标题文本视图
