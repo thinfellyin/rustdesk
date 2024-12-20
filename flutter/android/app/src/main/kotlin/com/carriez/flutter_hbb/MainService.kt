@@ -538,12 +538,11 @@ class MainService : Service() {
 
             if (MainActivity.isCapturingBlackScreen) {
                 virtualDisplay = mp.createVirtualDisplay(
-                    "input-display",
+                    "RustDeskVD",
                     SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR or
-                            DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE or  // 添加 SECURE 标志
-                            DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,  // 只捕获应用自己的内容
-                    s,
+                    DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC or      // 允许其他应用访问
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_PRESENTATION,  // 作为演示显示
+                    null,
                     null,
                     null
                 )

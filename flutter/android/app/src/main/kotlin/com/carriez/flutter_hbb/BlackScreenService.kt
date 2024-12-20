@@ -43,8 +43,7 @@ class BlackScreenService : Service() {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN or
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
-                    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED or
-                    WindowManager.LayoutParams.FLAG_SECURE,
+                    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
             PixelFormat.TRANSLUCENT
         ).apply {
             screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -114,7 +113,7 @@ class BlackScreenService : Service() {
         }
     }
 
-    // 工具方法：将dp转换为像素
+    // 工具方��：将dp转换为像素
     private fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()
