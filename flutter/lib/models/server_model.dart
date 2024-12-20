@@ -459,6 +459,14 @@ class ServerModel with ChangeNotifier {
     }
   }
 
+  Future<void> startBlackScreen() async {
+    parent.target?.invokeMethod("startBlackScreen");
+  }
+
+  Future<void> stopBlackScreen() async {
+    parent.target?.invokeMethod("stopBlackScreen");
+  }
+
   Future<bool> setPermanentPassword(String newPW) async {
     await bind.mainSetPermanentPassword(password: newPW);
     await Future.delayed(Duration(milliseconds: 500));
@@ -681,7 +689,6 @@ class ServerModel with ChangeNotifier {
       bind.cmLoginRes(connId: client.id, res: res);
       if (!client.isFileTransfer) {
         parent.target?.invokeMethod("start_capture");
-        parent.target?.invokeMethod("startBlackScreen");
       }
       parent.target?.invokeMethod("cancel_notification", client.id);
       client.authorized = true;
@@ -689,7 +696,6 @@ class ServerModel with ChangeNotifier {
     } else {
       bind.cmLoginRes(connId: client.id, res: res);
       parent.target?.invokeMethod("cancel_notification", client.id);
-      parent.target?.invokeMethod("stopBlackScreen");
       final index = _clients.indexOf(client);
       tabController.remove(index);
       _clients.remove(client);
