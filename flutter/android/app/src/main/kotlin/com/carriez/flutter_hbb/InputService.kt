@@ -60,9 +60,6 @@ class InputService : AccessibilityService() {
         var ctx: InputService? = null
         val isOpen: Boolean
             get() = ctx != null
-
-        var mVirtualDisplay: VirtualDisplay? = null
-        var mMediaProjection: MediaProjection? = null
     }
 
     private val logTag = "input service"
