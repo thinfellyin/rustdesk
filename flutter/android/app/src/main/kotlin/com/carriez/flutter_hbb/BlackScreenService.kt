@@ -35,8 +35,7 @@ class BlackScreenService : Service() {
     private fun createBlackOverlay() {
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
@@ -47,6 +46,7 @@ class BlackScreenService : Service() {
             PixelFormat.TRANSLUCENT
         ).apply {
             screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            privateFlags = WindowManager.LayoutParams.PRIVATE_FLAG_TRUSTED_OVERLAY
         }
 
         // 创建一个垂直方向的LinearLayout作为容器
@@ -113,7 +113,7 @@ class BlackScreenService : Service() {
         }
     }
 
-    // 工具方��：将dp转换为像素
+    //将dp转换为像素
     private fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()

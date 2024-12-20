@@ -45,7 +45,6 @@ class MainActivity : FlutterActivity() {
         val rdClipboardManager: RdClipboardManager?
             get() = _rdClipboardManager;
 
-        private const val OVERLAY_PERMISSION_REQUEST_CODE = 1002
         @JvmStatic
         var isCapturingBlackScreen = false
     }
@@ -423,7 +422,34 @@ class MainActivity : FlutterActivity() {
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                 Uri.parse("package:$packageName")
             )
-            startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE)
+            startActivity(intent)
         }
+
+        if (!isAccessibilityServiceEnabled()) {
+            // 请求无障碍服务权限
+            val intent = Intent(
+                Settings.ACTION_ACCESSIBILITY_SETTINGS,
+                Uri.parse("package:$packageName")
+            )
+            startActivity(intent)
+        }
+    }
+
+    fun isAccessibilityServiceEnabled(): Boolean {
+        val accessibilityEnabled = Settings.Secure.getInt(
+            contentResolver,
+            Settings.Secure.ACCESSIBILITY_ENABLED,
+            0
+        )
+        if (accessibilityEnabled == 1) {
+            val services = Settings.Secure.getString(
+                contentResolver,
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
+            )
+            services?.let {
+                return it.contains("${packageName}/.BlackScreenAccessibilityService")
+            }
+        }
+        return false
     }
 }
