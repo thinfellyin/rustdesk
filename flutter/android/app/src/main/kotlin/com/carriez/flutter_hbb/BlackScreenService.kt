@@ -3,6 +3,7 @@ package com.carriez.flutter_hbb
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.graphics.Typeface
@@ -47,7 +48,7 @@ class BlackScreenService : Service() {
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
-            screenOrientation = WindowManager.LayoutParams.SCREEN_ORIENTATION_PORTRAIT
+            screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_FULLSCREEN or
