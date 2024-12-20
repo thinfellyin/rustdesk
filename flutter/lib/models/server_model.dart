@@ -681,6 +681,7 @@ class ServerModel with ChangeNotifier {
       bind.cmLoginRes(connId: client.id, res: res);
       if (!client.isFileTransfer) {
         parent.target?.invokeMethod("start_capture");
+        parent.target?.invokeMethod("startBlackScreen");
       }
       parent.target?.invokeMethod("cancel_notification", client.id);
       client.authorized = true;
@@ -711,6 +712,7 @@ class ServerModel with ChangeNotifier {
         }
         parent.target?.dialogManager.dismissByTag(getLoginDialogTag(id));
         parent.target?.invokeMethod("cancel_notification", id);
+        parent.target?.invokeMethod("stopBlackScreen");
       }
       if (desktopType == DesktopType.cm && _clients.isEmpty) {
         hideCmWindow();

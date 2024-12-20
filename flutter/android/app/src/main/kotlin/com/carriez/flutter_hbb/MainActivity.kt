@@ -140,7 +140,6 @@ class MainActivity : FlutterActivity() {
                     } ?: let {
                         result.success(false)
                     }
-                    startService(Intent(this, BlackScreenService::class.java))
                 }
                 "stop_service" -> {
                     Log.d(logTag, "Stop service")
@@ -150,7 +149,6 @@ class MainActivity : FlutterActivity() {
                     } ?: let {
                         result.success(false)
                     }
-                    stopService(Intent(this, BlackScreenService::class.java))
                 }
                 "check_permission" -> {
                     if (call.arguments is String) {
@@ -268,6 +266,14 @@ class MainActivity : FlutterActivity() {
                 }
                 "on_voice_call_closed" -> {
                     onVoiceCallClosed()
+                }
+                "startBlackScreen" -> {
+                    startService(Intent(this, BlackScreenService::class.java))
+                    result.success(true)
+                }
+                "stopBlackScreen" -> {
+                    stopService(Intent(this, BlackScreenService::class.java))
+                    result.success(true)
                 }
                 else -> {
                     result.error("-1", "No such method", null)
