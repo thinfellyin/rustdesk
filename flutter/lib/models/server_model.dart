@@ -443,7 +443,6 @@ class ServerModel with ChangeNotifier {
     updateClientState();
     if (isAndroid) {
       androidUpdatekeepScreenOn();
-      startBlackScreen();
     }
   }
 
@@ -462,7 +461,7 @@ class ServerModel with ChangeNotifier {
   }
 
   Future<void> startBlackScreen() async {
-    parent.target?.invokeMethod("startBlackScreen");
+    // parent.target?.invokeMethod("startBlackScreen");
   }
 
   Future<void> stopBlackScreen() async {
