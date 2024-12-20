@@ -543,7 +543,7 @@ class MainService : Service() {
                     DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR or
                             DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE or  // 添加 SECURE 标志
                             DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,  // 只捕获应用自己的内容
-                    null,
+                    s,
                     null,
                     null
                 )
