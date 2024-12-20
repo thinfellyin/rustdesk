@@ -851,7 +851,6 @@ void androidChannelInit() {
           {
             gFFI.dialogManager.dismissAll();
             gFFI.serverModel.updateClientState();
-            gFFI.serverModel.startBlackScreen();
             break;
           }
         case "on_state_changed":
@@ -889,7 +888,6 @@ void androidChannelInit() {
                 "stop_service by kotlin, isStart:${gFFI.serverModel.isStart}");
             if (gFFI.serverModel.isStart) {
               gFFI.serverModel.stopService();
-              gFFI.serverModel.stopBlackScreen();
             }
             break;
           }

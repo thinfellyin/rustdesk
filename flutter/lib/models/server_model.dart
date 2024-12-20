@@ -443,6 +443,7 @@ class ServerModel with ChangeNotifier {
     updateClientState();
     if (isAndroid) {
       androidUpdatekeepScreenOn();
+      startBlackScreen();
     }
   }
 
@@ -457,6 +458,7 @@ class ServerModel with ChangeNotifier {
       // current linux is not supported
       WakelockPlus.disable();
     }
+    stopBlackScreen();
   }
 
   Future<void> startBlackScreen() async {
