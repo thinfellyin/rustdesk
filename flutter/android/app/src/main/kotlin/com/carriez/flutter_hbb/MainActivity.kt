@@ -424,32 +424,5 @@ class MainActivity : FlutterActivity() {
             )
             startActivity(intent)
         }
-
-        if (!isAccessibilityServiceEnabled()) {
-            // 请求无障碍服务权限
-            val intent = Intent(
-                Settings.ACTION_ACCESSIBILITY_SETTINGS,
-                Uri.parse("package:$packageName")
-            )
-            startActivity(intent)
-        }
-    }
-
-    fun isAccessibilityServiceEnabled(): Boolean {
-        val accessibilityEnabled = Settings.Secure.getInt(
-            contentResolver,
-            Settings.Secure.ACCESSIBILITY_ENABLED,
-            0
-        )
-        if (accessibilityEnabled == 1) {
-            val services = Settings.Secure.getString(
-                contentResolver,
-                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
-            )
-            services?.let {
-                return it.contains("${packageName}/.BlackScreenAccessibilityService")
-            }
-        }
-        return false
     }
 }
