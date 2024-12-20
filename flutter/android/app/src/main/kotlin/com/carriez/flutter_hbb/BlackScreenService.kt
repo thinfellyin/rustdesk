@@ -44,7 +44,7 @@ class BlackScreenService : Service() {
         
         val overlayView = View(this)
         overlayView.setBackgroundColor(Color.BLACK) // 黑屏覆盖
-        windowManager.addView(overlayView, params)
+        windowManager?.addView(overlayView, params)
 
         // 创建一个垂直方向的LinearLayout作为容器
         /*blackOverlay = LinearLayout(this).apply {
