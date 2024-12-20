@@ -217,7 +217,7 @@ class MainActivity : FlutterActivity() {
                         result.success(true)
                     }
                     MainActivity.isCapturingBlackScreen = false
-                    stopService(Intent(this, BlackScreenService::class.java))
+                    //stopService(Intent(this, BlackScreenService::class.java))
                 }
                 "enable_soft_keyboard" -> {
                     // https://blog.csdn.net/hanye2020/article/details/105553780

