@@ -36,11 +36,17 @@ import kotlin.concurrent.thread
 
 
 class MainActivity : FlutterActivity() {
+    private var blackScreenIntent: Intent? = null
+    
     companion object {
         var flutterMethodChannel: MethodChannel? = null
         private var _rdClipboardManager: RdClipboardManager? = null
         val rdClipboardManager: RdClipboardManager?
             get() = _rdClipboardManager;
+
+        private const val OVERLAY_PERMISSION_REQUEST_CODE = 1002
+        @JvmStatic
+        var isCapturingBlackScreen = false
     }
 
     private val channelTag = "mChannel"

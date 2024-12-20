@@ -157,12 +157,30 @@ fun getScreenSize(windowManager: WindowManager) : Pair<Int, Int>{
 }
 
 fun startBlackScreen() {
-    MainActivity.isCapturingBlackScreen = true
-    blackScreenIntent = Intent(this, BlackScreenService::class.java)
-    startService(blackScreenIntent)
+    checkOverlayPermission { granted ->
+        if (granted) {
+            MainActivity.isCapturingBlackScreen = true
+            blackScreenIntent = Intent(this, BlackScreenService::class.java)
+            startService(blackScreenIntent)
+        }
+    }
 }
 
 fun stopBlackScreen() {
     MainActivity.isCapturingBlackScreen = false
     blackScreenIntent?.let { stopService(it) }
+}
+
+fun checkOverlayPermission(callback: (Boolean) -> Unit) {
+    if (Settings.canDrawOverlays(this)) {
+        callback(true)
+    } else {
+        // 请求悬浮窗权限
+        val intent = Intent(
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            Uri.parse("package:$packageName")
+        )
+        startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE)
+        callback(false)
+    }
 }
