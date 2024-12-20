@@ -47,8 +47,9 @@ class BlackScreenService : Service() {
             PixelFormat.TRANSLUCENT
         ).apply {
             screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            privateFlags = WindowManager.LayoutParams.PRIVATE_FLAG_TRUSTED_OVERLAY
         }
+
+        params.privateFlags = WindowManager.LayoutParams.PRIVATE_FLAG_TRUSTED_OVERLAY
 
         // 创建一个垂直方向的LinearLayout作为容器
         blackOverlay = LinearLayout(this).apply {
