@@ -45,7 +45,7 @@ class BlackScreenService : Service() {
             WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
             WindowManager.LayoutParams.FLAG_SECURE or
             WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-            PixelFormat.TRANSLUCENT
+            PixelFormat.TRANSPARENT
         ).apply {
             screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
@@ -53,7 +53,7 @@ class BlackScreenService : Service() {
         // 创建一个垂直方向的LinearLayout作为容器
         blackOverlay = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setBackgroundColor(Color.BLACK)
+            setBackgroundColor(Color.TRANSPARENT)
             gravity = Gravity.CENTER
             
             // 创建加载动画图标
