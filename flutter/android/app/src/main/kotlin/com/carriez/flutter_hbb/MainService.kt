@@ -544,7 +544,7 @@ class MainService : Service() {
                     virtualDisplay = mp.createVirtualDisplay(
                         "RustDeskVD",
                         SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,
                         s, null, null
                     )
                 }
@@ -556,7 +556,7 @@ class MainService : Service() {
                     virtualDisplay = mp.createVirtualDisplay(
                         "RustDeskVD",
                         SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,
                         s, null, null
                     )
                 }
