@@ -544,7 +544,8 @@ class MainService : Service() {
                         "RustDeskVD",
                         SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
                         DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR or
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC or
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE,
                         s, null, null
                     )
                 }
