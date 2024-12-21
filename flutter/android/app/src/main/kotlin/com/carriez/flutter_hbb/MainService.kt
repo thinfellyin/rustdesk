@@ -536,33 +536,17 @@ class MainService : Service() {
     private fun createOrSetVirtualDisplay(mp: MediaProjection, s: Surface) {
         try {
 
-            if (MainActivity.isCapturingBlackScreen) {
-                virtualDisplay?.let {
-                    it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
-                    it.setSurface(s)
-                } ?: let {
-                    virtualDisplay = mp.createVirtualDisplay(
-                        "RustDeskVD",
-                        SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR or
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC,
-                        s, null, null
-                    )
-                }
-            }else{
-                virtualDisplay?.let {
-                    it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
-                    it.setSurface(s)
-                } ?: let {
-                    virtualDisplay = mp.createVirtualDisplay(
-                        "RustDeskVD",
-                        SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR or
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC,
-                        s, null, null
-                    )
-                }
+            virtualDisplay?.let {
+                it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
+                it.setSurface(s)
+            } ?: let {
+                virtualDisplay = mp.createVirtualDisplay(
+                    "RustDeskVD",
+                    SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    s, null, null
+                )
             }
+            
         } catch (e: SecurityException) {
             Log.w(logTag, "createOrSetVirtualDisplay: got SecurityException, re-requesting confirmation");
             // This initiates a prompt dialog for the user to confirm screen projection.
