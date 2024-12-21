@@ -536,12 +536,19 @@ class MainService : Service() {
     private fun createOrSetVirtualDisplay(mp: MediaProjection, s: Surface) {
         try {
 
-            virtualDisplay = mp.createVirtualDisplay(
+            virtualDisplay?.let {
+                    it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
+                    it.setSurface(s)
+                } ?: let {
+                    virtualDisplay = mp.createVirtualDisplay(
                         "RustDeskVD",
                         SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR or
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE or
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC,
                         s, null, null
                     )
+                }
             
         } catch (e: SecurityException) {
             Log.w(logTag, "createOrSetVirtualDisplay: got SecurityException, re-requesting confirmation");
