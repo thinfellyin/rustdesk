@@ -18,7 +18,7 @@ cert.pfx
 *jpg
 sciter.dll
 **pdb
-src/bridge_generated.rs
+#src/bridge_generated.rs
 src/bridge_generated.io.rs
 *deb
 rustdesk
