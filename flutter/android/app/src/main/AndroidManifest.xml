@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
 
     <queries>
         <intent>
@@ -93,12 +92,6 @@
         <service
             android:name=".FloatingWindowService"
             android:enabled="true" />
-
-        <!-- 添加黑屏服务 -->
-        <service
-            android:name=".BlackScreenService"
-            android:enabled="true"
-            android:exported="false" />
 
         <!--
  Don't delete the meta-data below.

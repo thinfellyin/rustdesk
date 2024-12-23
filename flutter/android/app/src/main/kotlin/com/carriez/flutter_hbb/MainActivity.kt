@@ -9,8 +9,6 @@ package com.carriez.flutter_hbb
 
 import ffi.FFI
 
-import android.net.Uri
-import android.provider.Settings;
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -38,15 +36,11 @@ import kotlin.concurrent.thread
 
 
 class MainActivity : FlutterActivity() {
-    
     companion object {
         var flutterMethodChannel: MethodChannel? = null
         private var _rdClipboardManager: RdClipboardManager? = null
         val rdClipboardManager: RdClipboardManager?
             get() = _rdClipboardManager;
-
-        @JvmStatic
-        var isCapturingBlackScreen = false
     }
 
     private val channelTag = "mChannel"
@@ -101,7 +95,6 @@ class MainActivity : FlutterActivity() {
         if (_rdClipboardManager == null) {
             _rdClipboardManager = RdClipboardManager(getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
             FFI.setClipboardManager(_rdClipboardManager!!)
-            checkOverlayPermission()
         }
     }
 
@@ -216,8 +209,6 @@ class MainActivity : FlutterActivity() {
                     } else {
                         result.success(true)
                     }
-                    //MainActivity.isCapturingBlackScreen = false
-                    //stopService(Intent(this, BlackScreenService::class.java))
                 }
                 "enable_soft_keyboard" -> {
                     // https://blog.csdn.net/hanye2020/article/details/105553780
@@ -413,16 +404,5 @@ class MainActivity : FlutterActivity() {
     override fun onStart() {
         super.onStart()
         stopService(Intent(this, FloatingWindowService::class.java))
-    }
-
-    fun checkOverlayPermission() {
-        if (!Settings.canDrawOverlays(this)) {
-            // 请求悬浮窗权限
-            val intent = Intent(
-                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:$packageName")
-            )
-            startActivity(intent)
-        }
     }
 }

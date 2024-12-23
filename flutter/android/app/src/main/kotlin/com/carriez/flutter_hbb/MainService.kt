@@ -21,7 +21,7 @@ import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.graphics.Color
 import android.graphics.PixelFormat
-import android.hardware.display.DisplayManager
+import android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR
 import android.hardware.display.VirtualDisplay
 import android.media.*
 import android.media.projection.MediaProjection
@@ -535,19 +535,16 @@ class MainService : Service() {
     // Reuse virtualDisplay if it exists, to avoid media projection confirmation dialog every connection.
     private fun createOrSetVirtualDisplay(mp: MediaProjection, s: Surface) {
         try {
-
             virtualDisplay?.let {
-                    it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
-                    it.setSurface(s)
-                } ?: let {
-                    virtualDisplay = mp.createVirtualDisplay(
-                        "RustDeskVD",
-                        SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi,
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                        s, null, null
-                    )
-                }
-            
+                it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
+                it.setSurface(s)
+            } ?: let {
+                virtualDisplay = mp.createVirtualDisplay(
+                    "RustDeskVD",
+                    SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi, VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    s, null, null
+                )
+            }
         } catch (e: SecurityException) {
             Log.w(logTag, "createOrSetVirtualDisplay: got SecurityException, re-requesting confirmation");
             // This initiates a prompt dialog for the user to confirm screen projection.
@@ -679,9 +676,7 @@ class MainService : Service() {
             .setContentTitle("$type ${translate("Established")}")
             .setContentText("$username - $peerId")
             .build()
-        //notificationManager.notify(getClientNotifyID(clientID), notification)
-        //MainActivity.isCapturingBlackScreen = true
-        //startService(Intent(this, BlackScreenService::class.java))
+        notificationManager.notify(getClientNotifyID(clientID), notification)
     }
 
     private fun voiceCallRequestNotification(
