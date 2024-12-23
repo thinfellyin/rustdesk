@@ -49,9 +49,6 @@ env:
   RUST_VERSION_GB: "1.75" # https://github.com/rustdesk/rustdesk/discussions/7503
 
 jobs:
-  generate-bridge:
-    uses: ./.github/workflows/bridge.yml
-
   build-rustdesk-android:
     name: build rustdesk android apk ${{ matrix.job.target }}
     runs-on: self-hosted
