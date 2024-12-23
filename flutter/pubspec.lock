@@ -245,10 +245,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: ee67cb0715911d28db6bf4af1026078bd6f0128b07a5f66fb2ed94ec6783c09a
+      sha256: a1ace0a119f20aabc852d165077c036cd864315bd99b7eaa10a60100341941bf
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "1.19.0"
   contextmenu:
     dependency: "direct main"
     description:
@@ -384,18 +384,18 @@ packages:
     dependency: "direct main"
     description:
       name: extended_text
-      sha256: "38c1cac571d6eaf406f4b80040c1f88561e7617ad90795aac6a1be0a8d0bb676"
+      sha256: "02260234da409916f56add1dd470bc17f4b3359e94c93bf4b8e44c7439dcd536"
       url: "https://pub.dev"
     source: hosted
-    version: "14.0.0"
+    version: "11.1.0"
   extended_text_library:
     dependency: transitive
     description:
       name: extended_text_library
-      sha256: "55d09098ec56fab0d9a8a68950ca0bbf2efa1327937f7cec6af6dfa066234829"
+      sha256: f6ae456324ff6ba3f9fe560a5c12f51ec02c5f463ef5a02bf165b678f049d547
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.0"
+    version: "11.1.0"
   external_path:
     dependency: "direct main"
     description:
@@ -1176,7 +1176,7 @@ packages:
     dependency: transitive
     description: flutter
     source: sdk
-    version: "0.0.99"
+    version: "0.0.0"
   source_gen:
     dependency: transitive
     description:
@@ -1614,5 +1614,5 @@ packages:
     source: hosted
     version: "0.2.1"
 sdks:
-  dart: ">=3.5.0 <4.0.0"
-  flutter: ">=3.24.0"
+  dart: ">=3.4.0 <4.0.0"
+  flutter: ">=3.19.0"
