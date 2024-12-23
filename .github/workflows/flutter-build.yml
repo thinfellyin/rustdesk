@@ -64,6 +64,9 @@ jobs:
               suffix: "",
             }
     steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        
       - name: Install prerequisites
         run: |
           sudo apt-get install ca-certificates -y
